@@ -3,50 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Name Place Animal Thing - Real Game</title>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1905215538239803" crossorigin="anonymous"></script>
+<title>Punjabi Name Place Animal Thing Game</title>
 <style>
-body{font-family:Arial;background:#FFF3E0;text-align:center;margin:0}
-.top-bar{background:white;padding:10px;display:flex;justify-content:space-around;box-shadow:0 2px 5px #ccc;position:sticky;top:0}
-.top-bar a{background:#FF9800;color:white;padding:8px 15px;border-radius:20px;text-decoration:none;font-weight:bold;font-size:12px}
-.game-box{background:white;max-width:420px;margin:15px auto;padding:20px;border-radius:20px;box-shadow:0 4px 10px #ccc}
-input{width:92%;padding:12px;margin:7px 0;border:2px solid #FF9800;border-radius:10px;font-size:15px}
-button{background:#E65100;color:white;padding:12px 25px;border:none;border-radius:20px;font-weight:900;font-size:16px;cursor:pointer}
-#letter{font-size:70px;color:#E65100;font-weight:900}
-#msg{min-height:24px;font-weight:bold}
+  body{font-family:system-ui; background:#FFF7ED; display:flex; justify-content:center; padding:20px; margin:0}
+  .card{background:white; width:100%; max-width:400px; padding:20px; border-radius:20px; box-shadow:0 10px 25px rgba(0,0,0,0.1); text-align:center}
+  #letter{font-size:80px; font-weight:900; color:#FF6B00; margin:10px 0; line-height:1}
+  .score{font-weight:bold; color:green}
+  input{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:2px solid #FFE0B2; font-size:16px; outline:none; box-sizing:border-box}
+  input:focus{border-color:#FF6B00}
+  button{width:100%; padding:14px; background:#FF6B00; color:white; border:none; border-radius:12px; font-size:18px; font-weight:bold; margin-top:10px; cursor:pointer}
+  button:active{transform:scale(0.98)}
+  #msg{height:24px; margin-top:10px; font-weight:bold; font-size:15px}
+  .hint{font-size:12px; color:#888; margin-top:10px}
 </style>
 </head>
 <body>
-<div class="top-bar">
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-<a href="privacy.html">Privacy</a>
-<a href="blog.html">Blog</a>
-</div>
-
-<div class="game-box">
-<h2 style="color:#E65100">Real Name Place Game</h2>
-<div id="letter">A</div>
-<p>Letter: <b><span id="curLetter">A</span></b> | Score: <b><span id="score">0</span>/260</b></p>
-<input id="name" placeholder="Name (e.g. Aman, Chetna)">
-<input id="place" placeholder="Place (e.g. Andhra Pradesh, Amritsar)">
-<input id="animal" placeholder="Animal (e.g. Ant, Alligator)">
-<input id="thing" placeholder="Thing (e.g. Apple, Aeroplane)">
-<br><br>
-<button onclick="checkAns()">CHECK & NEXT</button>
-<button onclick="nextLetter()" style="background:#777">SKIP</button>
-<p id="msg"></p>
+<div class="card">
+  <div style="display:flex; justify-content:space-between;"><span>Letter: <b id="curLetter">B</b></span> <span class="score">Score: <span id="score">10</span>/260</span></div>
+  <div id="letter">B</div>
+  <input id="name" placeholder="Name - Jaise Barkha">
+  <input id="place" placeholder="Place - Jaise Bathinda">
+  <input id="animal" placeholder="Animal - Jaise Bear">
+  <input id="thing" placeholder="Thing - Jaise Bottle">
+  <button onclick="checkAns()">CHECK & NEXT ➡️</button>
+  <div id="msg"></div>
+  <div class="hint">Real words likho, aad/aaa jaisa gibberish block hoga</div>
 </div>
 
 <script>
 let letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-let curIndex=0;
-let score=0;
+let curIndex=1; // B se start
+let score=10;
+let gibberish = ["aaa","aad","abc","abcd","asdf","qwerty","xyz","zzzz","aaaa","bbb","ccc","ddd","asd","efg","xxx"];
 
-const validNames = ["aman","amrit","arshdeep","anmol","arjun","chetan","chetna","baljeet","balkar","charan","chaman","deepali","diljeet","davinder","ekam","eknoor","farhan","fateh","gurpreet","gagandeep","goldy","harpreet","harman","inder","ishan","jagdeep","jaskaran","kamal","karan","kuldeep","lovepreet","manpreet","manjot","navjot","navdeep","onkar","omkar","pardeep","prabhjot","ram","raj","simran","sandeep","tarandeep","uday","vikram","yuvraj","yash","amit","avneet","anita","geeta","sita","pooja","priya","neha","rohan","mohan","aarti","archana","aadi","aarav","anjali","ankit"];
-const validPlaces = ["amritsar","agra","america","australia","assam","ajmer","andhra pradesh","arunachal pradesh","barnala","bathinda","bangalore","bhopal","chandigarh","chennai","canada","delhi","dubai","dehradun","england","france","faridkot","fazilka","goa","gujarat","haryana","hyderabad","india","jaipur","jalandhar","japan","kolkata","kerala","karnal","ludhiana","london","lucknow","mumbai","manali","nagpur","punjab","patiala","pune","paris","rajasthan","ropar","sangrur","shimla","singapore","tarn taran","usa","uk","varanasi","bihar","uttar pradesh","madhya pradesh","maharashtra","west bengal","tamil nadu","uttarakhand","odisha"];
-const validAnimals = ["ant","alligator","ape","bear","bat","bee","buffalo","cat","cow","camel","cheetah","dog","deer","donkey","dolphin","elephant","eagle","emu","fox","frog","fish","goat","giraffe","gorilla","horse","hippo","iguana","jaguar","jackal","kangaroo","koala","lion","leopard","lizard","monkey","mouse","ox","octopus","ostrich","peacock","parrot","panda","quail","rabbit","rat","rhino","snake","sheep","shark","tiger","turtle","vulture","wolf","whale","yak","zebra"];
-const validThings = ["apple","axe","aeroplane","almirah","ball","bat","book","bottle","bag","car","chair","cap","cup","clock","doll","door","desk","egg","eraser","fan","flower","fork","glass","guitar","hat","house","hammer","ice","ink","iron","jug","jacket","jeep","kite","knife","key","lamp","laptop","mango","mobile","mirror","nest","net","orange","onion","pen","pencil","phone","plate","queen","quilt","ring","radio","sun","star","spoon","table","tree","train","umbrella","van","vase","watch","window","xylophone","yacht","zip"];
+function isValid(word){
+  if(word.length < 3) return "3 akshar se kam nahi chalega!";
+  if(!/^[a-z ]+$/.test(word)) return "Sirf letters likho!";
+  if(gibberish.includes(word)) return `"${word}" real word nahi hai!`;
+  if(/(.)\1\1/.test(word)) return `"${word}" me same letter 3 baar hai!`;
+  if(word.split('').every(c => c === word[0])) return "Sab same letter nahi!";
+  return true;
+}
 
 function checkAns(){
   let L = letters[curIndex].toLowerCase();
@@ -59,23 +56,29 @@ function checkAns(){
   if(!n || !p || !a || !t){ msg.innerHTML="❌ Saare 4 bharo!"; msg.style.color="red"; return; }
   if(n[0]!=L || p[0]!=L || a[0]!=L || t[0]!=L){ msg.innerHTML=`❌ Sab ${L.toUpperCase()} se start hone chahiye!`; msg.style.color="red"; return; }
 
-  if(!validNames.includes(n)){ msg.innerHTML=`❌ "${n}" real Name nahi hai!`; msg.style.color="red"; return; }
-  if(!validPlaces.includes(p)){ msg.innerHTML=`❌ "${p}" real Place nahi hai!`; msg.style.color="red"; return; }
-  if(!validAnimals.includes(a)){ msg.innerHTML=`❌ "${a}" real Animal nahi hai!`; msg.style.color="red"; return; }
-  if(!validThings.includes(t)){ msg.innerHTML=`❌ "${t}" real Thing nahi hai!`; msg.style.color="red"; return; }
+  let checks = [{w:n, label:"Name"}, {w:p, label:"Place"}, {w:a, label:"Animal"}, {w:t, label:"Thing"}];
+  for(let obj of checks){
+    let res = isValid(obj.w);
+    if(res !== true){ msg.innerHTML=`❌ ${obj.label}: ${res}`; msg.style.color="red"; return; }
+  }
 
-  score+=10;
-  document.getElementById("score").innerText=score;
-  msg.innerHTML="✅ Perfect! +10"; msg.style.color="green";
-  setTimeout(nextLetter, 1000);
+  score+=10; 
+  document.getElementById("score").innerText=score; 
+  msg.innerHTML="✅ Shabaash! +10"; 
+  msg.style.color="green"; 
+  setTimeout(nextLetter, 600);
 }
 
 function nextLetter(){
-  curIndex++;
-  if(curIndex>=26){ alert("Game Khatam! Score: "+score+"/260"); curIndex=0; score=0; document.getElementById("score").innerText=0; }
-  document.getElementById("letter").innerText=letters[curIndex].toUpperCase();
-  document.getElementById("curLetter").innerText=letters[curIndex].toUpperCase();
-  ["name","place","animal","thing"].forEach(id=>document.getElementById(id).value="");
+  curIndex++; 
+  if(curIndex>=26){ 
+    alert("Game Khatam! Final Score: "+score+"/260"); 
+    curIndex=0; score=0; 
+    document.getElementById("score").innerText=0; 
+  }
+  document.getElementById("letter").innerText=letters[curIndex]; 
+  document.getElementById("curLetter").innerText=letters[curIndex];
+  ["name","place","animal","thing"].forEach(id=>document.getElementById(id).value=""); 
   document.getElementById("msg").innerText="";
 }
 </script>
