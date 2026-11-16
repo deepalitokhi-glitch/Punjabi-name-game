@@ -1,86 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Punjabi Name Place Animal Thing Game</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Punjabi Name Place Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&family=Noto+Sans+Gurmukhi:wght@600&display=swap" rel="stylesheet">
 <style>
-  body{font-family:system-ui; background:#FFF7ED; display:flex; justify-content:center; padding:20px; margin:0}
-  .card{background:white; width:100%; max-width:400px; padding:20px; border-radius:20px; box-shadow:0 10px 25px rgba(0,0,0,0.1); text-align:center}
-  #letter{font-size:80px; font-weight:900; color:#FF6B00; margin:10px 0; line-height:1}
-  .score{font-weight:bold; color:green}
-  input{width:100%; padding:12px; margin:8px 0; border-radius:10px; border:2px solid #FFE0B2; font-size:16px; outline:none; box-sizing:border-box}
-  input:focus{border-color:#FF6B00}
-  button{width:100%; padding:14px; background:#FF6B00; color:white; border:none; border-radius:12px; font-size:18px; font-weight:bold; margin-top:10px; cursor:pointer}
-  button:active{transform:scale(0.98)}
-  #msg{height:24px; margin-top:10px; font-weight:bold; font-size:15px}
-  .hint{font-size:12px; color:#888; margin-top:10px}
+body{font-family:'Fredoka',system-ui;margin:0;min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(#FFD93D,#FF8A00);padding:15px}
+.card{background:white;width:100%;max-width:420px;border-radius:28px;padding:20px;box-shadow:0 20px 40px rgba(0,0,0,.2);border:4px solid #2D2D2D;position:relative;overflow:hidden}
+.card:before{content:"🌾🌾🌾";position:absolute;top:0;left:0;right:0;background:#FFE9A9;text-align:center;font-size:14px;padding:4px}
+.top{display:flex;justify-content:space-between;margin-top:20px;font-weight:bold}
+#letter{font-size:90px;font-weight:900;color:#FF5A00;text-align:center;margin:5px 0;text-shadow:4px 4px 0 #2D2D2D}
+.timer-bar{height:10px;background:#EEE;border-radius:10px;overflow:hidden;margin-bottom:12px;border:2px solid #2D2D2D}
+#timerFill{height:100%;width:100%;background:#00C853;transition:width 1s linear}
+input{width:100%;padding:13px;margin:7px 0;border-radius:14px;border:2.5px solid #2D2D2D;font-size:16px;box-sizing:border-box;font-family:inherit}
+button.main{width:100%;padding:14px;background:#2D2D2D;color:white;border:none;border-radius:14px;font-size:18px;font-weight:bold;margin-top:8px;cursor:pointer}
+button.share{width:100%;padding:10px;background:white;color:#2D2D2D;border:2.5px solid #2D2D2D;border-radius:14px;font-size:14px;margin-top:8px}
+#msg{min-height:28px;text-align:center;font-weight:bold;margin-top:10px;font-size:16px}
+.punjabi{font-family:'Noto Sans Gurmukhi',sans-serif;color:#FF5A00}
 </style>
 </head>
 <body>
 <div class="card">
-  <div style="display:flex; justify-content:space-between;"><span>Letter: <b id="curLetter">B</b></span> <span class="score">Score: <span id="score">10</span>/260</span></div>
-  <div id="letter">B</div>
-  <input id="name" placeholder="Name - Jaise Barkha">
-  <input id="place" placeholder="Place - Jaise Bathinda">
-  <input id="animal" placeholder="Animal - Jaise Bear">
-  <input id="thing" placeholder="Thing - Jaise Bottle">
-  <button onclick="checkAns()">CHECK & NEXT ➡️</button>
-  <div id="msg"></div>
-  <div class="hint">Real words likho, aad/aaa jaisa gibberish block hoga</div>
+<div class="top"><span class="punjabi">ਅੱਖਰ: <b id="curLetter">B</b></span><span>⏱️ <b id="time">30</b>s</span><span>⭐ <b id="score">10</b>/260</span></div>
+<div class="timer-bar"><div id="timerFill"></div></div>
+<div id="letter">B</div>
+<input id="name" placeholder="Name - Barkha ✅">
+<input id="place" placeholder="Place - Bathinda / Barnala">
+<input id="animal" placeholder="Animal - Bear / Bat">
+<input id="thing" placeholder="Thing - Bottle / Ball">
+<button class="main" onclick="checkAns()">CHECK KARO ➡️</button>
+<button class="share" onclick="shareScore()">👯 Dostan nu Share Karo</button>
+<div id="msg"></div>
 </div>
-
 <script>
-let letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-let curIndex=1; // B se start
-let score=10;
-let gibberish = ["aaa","aad","abc","abcd","asdf","qwerty","xyz","zzzz","aaaa","bbb","ccc","ddd","asd","efg","xxx"];
+let letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""); let curIndex=1; let score=10; let timeLeft=30; let timer;
+const placesSet = new Set(["amritsar","bathinda","barnala","bangalore","bengaluru","bhopal","bhatinda","bombay","mumbai","berlin","boston","bangkok","bali","birmingham","bihar","bikaner","bareilly","bhutan","bahrain","belgium","brazil","barnala","bathinda","chandigarh","chennai","canada","california","delhi","dubai","dehradun","england","france","faridkot","fazilka","goa","gujarat","gurgaon","haryana","hyderabad","jaipur","jalandhar","japan","kolkata","kerala","karnal","ludhiana","london","lucknow","mumbai","manali","nagpur","punjab","patiala","pune","paris","rajasthan","ropar","sangrur","shimla","singapore","tarn taran","usa","uk","varanasi","agra","ajmer","andhra","assam","australia","america","arunachal"]);
+const animalsSet = new Set(["ant","alligator","ape","bear","bat","bee","buffalo","bull","bison","beaver","badger","cat","cow","camel","cheetah","dog","deer","donkey","dolphin","elephant","eagle","emu","fox","frog","fish","goat","giraffe","gorilla","horse","hippo","iguana","jaguar","jackal","kangaroo","koala","lion","leopard","lizard","monkey","mouse","ox","octopus","ostrich","peacock","parrot","panda","quail","rabbit","rat","rhino","snake","sheep","shark","tiger","turtle","vulture","wolf","whale","yak","zebra"]);
+const thingsSet = new Set(["apple","axe","aeroplane","almirah","ball","bat","book","bottle","bag","bench","bed","blanket","box","bucket","bulb","car","chair","cap","cup","clock","doll","door","desk","egg","eraser","fan","flower","fork","glass","guitar","hat","house","hammer","ice","ink","iron","jug","jacket","jeep","kite","knife","key","lamp","laptop","mango","mobile","mirror","nest","net","orange","onion","pen","pencil","phone","plate","queen","quilt","ring","radio","sun","star","spoon","table","tree","train","umbrella","van","vase","watch","window","xylophone","yacht","zip"]);
+const wrongDialogs=["Oye hoye! Eh ki likh ditta? 😜","Ballle Ballle galat hai! 🙈","Oye hoye Ruk ja, soch ke likh!","Na na eh nahi chalega!","Chak de fatte? Nahi eh galat hai!"];
+const rightDialogs=["Ballle Ballle! Shabaash! 🎉","Chak De Phatte! ⭐","Wah ji Wah! Perfect!","Oye Hoye Kamaal! 💛"];
 
-function isValid(word){
-  if(word.length < 3) return "3 akshar se kam nahi chalega!";
-  if(!/^[a-z ]+$/.test(word)) return "Sirf letters likho!";
-  if(gibberish.includes(word)) return `"${word}" real word nahi hai!`;
-  if(/(.)\1\1/.test(word)) return `"${word}" me same letter 3 baar hai!`;
-  if(word.split('').every(c => c === word[0])) return "Sab same letter nahi!";
-  return true;
+function startTimer(){
+ clearInterval(timer); timeLeft=30; document.getElementById("time").innerText=timeLeft; document.getElementById("timerFill").style.width="100%"; document.getElementById("timerFill").style.background="#00C853";
+ timer=setInterval(()=>{timeLeft--; document.getElementById("time").innerText=timeLeft; document.getElementById("timerFill").style.width=(timeLeft/30*100)+"%"; if(timeLeft<10)document.getElementById("timerFill").style.background="red"; if(timeLeft<=0){clearInterval(timer); document.getElementById("msg").innerHTML="⏰ Time Khatam! "+wrongDialogs[Math.floor(Math.random()*wrongDialogs.length)]; document.getElementById("msg").style.color="red"; setTimeout(nextLetter,1200);} },1000);
 }
-
 function checkAns(){
-  let L = letters[curIndex].toLowerCase();
-  let n = document.getElementById("name").value.trim().toLowerCase();
-  let p = document.getElementById("place").value.trim().toLowerCase();
-  let a = document.getElementById("animal").value.trim().toLowerCase();
-  let t = document.getElementById("thing").value.trim().toLowerCase();
-  let msg = document.getElementById("msg");
+ let L=letters[curIndex].toLowerCase();
+ let n=document.getElementById("name").value.trim().toLowerCase();
+ let p=document.getElementById("place").value.trim().toLowerCase();
+ let a=document.getElementById("animal").value.trim().toLowerCase();
+ let t=document.getElementById("thing").value.trim().toLowerCase();
+ let msg=document.getElementById("msg");
+ if(!n||!p||!a||!t){msg.innerHTML=wrongDialogs[0]+" Saare bharo!"; msg.style.color="red"; return;}
+ if(n[0]!=L||p[0]!=L||a[0]!=L||t[0]!=L){msg.innerHTML=`❌ Sab ${L.toUpperCase()} se shuru hone chahiye!`; msg.style.color="red"; return;}
+ if(n.length<3||/(.)\1\1/.test(n)||["aaa","aad","abc","asdf"].includes(n)){msg.innerHTML="❌ Name real likho!"; msg.style.color="red"; return;}
+ if(!placesSet.has(p) && p.length<3){msg.innerHTML=`❌ "${p}" Place nahi hai! Bathinda/Barnala likho`; msg.style.color="red"; return;}
+ if(!placesSet.has(p)){ // allow if ends with common suffix but still block Bat
+   if(["bat","ball","cat","car","bad","baad"].includes(p)){msg.innerHTML=`❌ "${p}" Place nahi hai!`; msg.style.color="red"; return;}
+ }
+ if(!animalsSet.has(a)){msg.innerHTML=`❌ "${a}" Animal nahi hai!`; msg.style.color="red"; return;}
+ if(!thingsSet.has(t)){msg.innerHTML=`❌ "${t}" Thing nahi hai! Ball/Bottle likho`; msg.style.color="red"; return;}
 
-  if(!n || !p || !a || !t){ msg.innerHTML="❌ Saare 4 bharo!"; msg.style.color="red"; return; }
-  if(n[0]!=L || p[0]!=L || a[0]!=L || t[0]!=L){ msg.innerHTML=`❌ Sab ${L.toUpperCase()} se start hone chahiye!`; msg.style.color="red"; return; }
-
-  let checks = [{w:n, label:"Name"}, {w:p, label:"Place"}, {w:a, label:"Animal"}, {w:t, label:"Thing"}];
-  for(let obj of checks){
-    let res = isValid(obj.w);
-    if(res !== true){ msg.innerHTML=`❌ ${obj.label}: ${res}`; msg.style.color="red"; return; }
-  }
-
-  score+=10; 
-  document.getElementById("score").innerText=score; 
-  msg.innerHTML="✅ Shabaash! +10"; 
-  msg.style.color="green"; 
-  setTimeout(nextLetter, 600);
+ score+=10; document.getElementById("score").innerText=score;
+ msg.innerHTML=rightDialogs[Math.floor(Math.random()*rightDialogs.length)]+" +10"; msg.style.color="green";
+ clearInterval(timer); setTimeout(nextLetter,800);
 }
-
 function nextLetter(){
-  curIndex++; 
-  if(curIndex>=26){ 
-    alert("Game Khatam! Final Score: "+score+"/260"); 
-    curIndex=0; score=0; 
-    document.getElementById("score").innerText=0; 
-  }
-  document.getElementById("letter").innerText=letters[curIndex]; 
-  document.getElementById("curLetter").innerText=letters[curIndex];
-  ["name","place","animal","thing"].forEach(id=>document.getElementById(id).value=""); 
-  document.getElementById("msg").innerText="";
+ curIndex++; if(curIndex>=26){alert("Khatam! Final Score: "+score+"/260 🎉"); curIndex=0; score=0; document.getElementById("score").innerText=0;}
+ document.getElementById("letter").innerText=letters[curIndex]; document.getElementById("curLetter").innerText=letters[curIndex];
+ ["name","place","animal","thing"].forEach(id=>document.getElementById(id).value=""); document.getElementById("msg").innerText=""; startTimer();
 }
+function shareScore(){ let text=`Mera Punjabi Game Score: ${score}/260 hai! Letter ${letters[curIndex]} chal raha hai. Tu bhi khel: https://deepalitokhi-glitch.github.io/Punjabi-name-game/`; if(navigator.share){navigator.share({title:"Punjabi Game",text:text});} else {navigator.clipboard.writeText(text); alert("Link copy ho gaya! Doston ko bhejo!");}}
+startTimer();
 </script>
 </body>
 </html>
