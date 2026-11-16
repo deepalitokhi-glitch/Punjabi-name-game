@@ -3,84 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Punjabi Name Place Animal Thing - Smart Game</title>
+<title>Name Place Animal Thing</title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1905215538239803" crossorigin="anonymous"></script>
-<style>
-body{font-family:Arial;background:#FFF3E0;text-align:center;margin:0;padding:0}
-.top-bar{background:white;padding:10px;display:flex;justify-content:space-around;box-shadow:0 2px 5px #ccc;position:sticky;top:0;z-index:100}
-.top-bar a{background:#FF9800;color:white;padding:8px 15px;border-radius:20px;text-decoration:none;font-weight:bold;font-size:12px}
-.game-box{background:white;max-width:420px;margin:15px auto;padding:20px;border-radius:20px;box-shadow:0 4px 10px #ccc}
-input{width:92%;padding:12px;margin:7px 0;border:2px solid #FF9800;border-radius:10px;font-size:15px;text-transform:capitalize}
-button{background:#E65100;color:white;padding:12px 25px;border:none;border-radius:20px;font-weight:900;font-size:16px;cursor:pointer;margin:5px}
-#letter{font-size:70px;color:#E65100;font-weight:900;margin:5px}
-#msg{font-weight:bold;min-height:25px;font-size:14px}
-</style>
+<style>body{font-family:Arial;background:#FFF3E0;text-align:center;margin:0}.top-bar{background:white;padding:10px;display:flex;justify-content:space-around;box-shadow:0 2px 5px #ccc;position:sticky;top:0}.top-bar a{background:#FF9800;color:white;padding:8px 15px;border-radius:20px;text-decoration:none;font-weight:bold;font-size:12px}.game-box{background:white;max-width:420px;margin:15px auto;padding:20px;border-radius:20px;box-shadow:0 4px 10px #ccc}input{width:92%;padding:12px;margin:7px 0;border:2px solid #FF9800;border-radius:10px;font-size:15px}button{background:#E65100;color:white;padding:12px 25px;border:none;border-radius:20px;font-weight:900;font-size:16px}#letter{font-size:70px;color:#E65100;font-weight:900}#msg{min-height:24px;font-weight:bold}</style>
 </head>
 <body>
-<div class="top-bar">
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-<a href="privacy.html">Privacy</a>
-<a href="blog.html">Blog</a>
-</div>
-
+<div class="top-bar"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a><a href="blog.html">Blog</a></div>
 <div class="game-box">
-<h2 style="color:#E65100;margin:5px">Smart Name Place Game</h2>
+<h2 style="color:#E65100">Name Place Animal Thing</h2>
 <div id="letter">A</div>
-<p style="margin:2px">Letter: <b><span id="curLetter">A</span></b> | Score: <b><span id="score">0</span>/260</b></p>
-<input id="name" placeholder="Name - e.g. Arshdeep">
-<input id="place" placeholder="Place - e.g. Amritsar">
-<input id="animal" placeholder="Animal - e.g. Ant">
-<input id="thing" placeholder="Thing - e.g. Apple">
-<br>
-<button onclick="checkAns()">CHECK & NEXT</button>
-<button onclick="nextLetter()" style="background:#777">SKIP</button>
-<p id="msg"></p>
-<p style="font-size:12px;color:#666">Tip: Sahi word hi likho, game khud check karega</p>
+<p>Letter: <b><span id="curLetter">A</span></b> | Score: <b><span id="score">0</span>/260</b></p>
+<input id="name" placeholder="Name (e.g. Aman, Chetna)"><input id="place" placeholder="Place (e.g. Andhra Pradesh, Amritsar)"><input id="animal" placeholder="Animal (e.g. Ant, Alligator)"><input id="thing" placeholder="Thing (e.g. Apple, Aeroplane)"><br><br><button onclick="checkAns()">CHECK & NEXT</button> <button onclick="nextLetter()" style="background:#777">SKIP</button><p id="msg"></p>
+<p style="font-size:11px;color:#888">Jo bhi real word hai, game accept karega</p>
 </div>
-
-<div style="text-align:center;padding:10px;">
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1905215538239803" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
-
 <script>
-let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-let curIndex = 0;
-let score = 0;
-
-// --- DATABASE A-Z ---
-const DB = {
-A: {names:["aman","arshdeep","amrit","anmol","arjun","arsh","avneet","amit"], places:["amritsar","agra","america","australia","assam","ajmer","amritsar"], animals:["ant","alligator","ape","anaconda","antelope","albatross"], things:["apple","axe","aeroplane","almirah","arrow"]},
-B: {names:["baljeet","balkar","bhavya","bikram","aman"], places:["bombay","barnala","bathinda","bangalore","bhopal","bangkok"], animals:["bear","bat","bee","buffalo","butterfly"], things:["ball","bat","book","bottle","bag"]},
-C: {names:["charan","chaman","chetan","chirag"], places:["chandigarh","chennai","canada","california","chicago"], animals:["cat","cow","camel","cheetah","crocodile"], things:["car","chair","cap","cup","clock"]},
-D: {names:["deepali","diljeet","davinder","deepak"], places:["delhi","dubai","denmark","dehradun","darjeeling"], animals:["dog","deer","donkey","dolphin","duck"], things:["doll","door","desk","dog"],},
-E: {names:["ekam","eknoor","elena"], places:["england","europe","egypt"], animals:["elephant","eagle","emu","eel"], things:["egg","eraser","envelope","earphone"]},
-F: {names:["farhan","fateh","farid"], places:["france","faridkot","fazilka","finland"], animals:["fox","frog","fish","flamingo"], things:["fan","flower","fork","fruit"]},
-G: {names:["gurpreet","gagandeep","goldy","geeta"], places:["goa","gujarat","germany","greece","ganganagar"], animals:["goat","giraffe","gorilla","goose"], things:["glass","gun","guitar","gift"]},
-H: {names:["harpreet","harman","harjeet","harry"], places:["haryana","himachal","hyderabad","holland"], animals:["horse","hippo","hyena","hen"], things:["hat","house","hen","hammer"]},
-I: {names:["inder","ishan","ikjot","imran"], places:["india","italy","indore","iceland"], animals:["iguana","impala","ibis"], things:["ice","ink","iron","icecream"]},
-J: {names:["jagdeep","jaskaran","jatin","jasmine"], places:["jaipur","jalandhar","japan","jharkhand"], animals:["jaguar","jackal","jellyfish"], things:["jug","jacket","jeep","jewellery"]},
-K: {names:["kamal","karan","kuldeep","kiran"], places:["kolkata","kerala","karnal","canada","kashmir"], animals:["kangaroo","koala","kiwi"], things:["kite","knife","key","kettle"]},
-L: {names:["lovepreet","lakhvir","lucky","lisa"], places:["ludhiana","london","lahore","lucknow"], animals:["lion","leopard","lizard"], things:["lamp","laptop","lion"],},
-M: {names:["manpreet","manjot","mandeep","mohit"], places:["mumbai","malaysia","moga","manali","mohali"], animals:["monkey","mouse","moose"], things:["mango","mobile","mirror","mat"]},
-N: {names:["navjot","navdeep","naman","neha"], places:["nagpur","norway","nabha","nashik"], animals:["nilgai","nightingale","narwhal"], things:["nest","net","needle","notebook"]},
-O: {names:["onkar","omkar","ojas"], places:["oman","orissa","ooty"], animals:["ox","octopus","ostrich","owl"], things:["orange","onion","owl","oven"]},
-P: {names:["pardeep","prabhjot","parneet","pooja"], places:["punjab","patiala","pune","paris","pakistan"], animals:["peacock","parrot","panda","penguin"], things:["pen","pencil","phone","plate"]},
-Q: {names:["qasim","quincy"], places:["qatar"], animals:["quail","quetzal"], things:["queen","quilt"]},
-R: {names:["ram","rajdeep","ravinder","raman"], places:["rajasthan","ropar","russia","rome"], animals:["rabbit","rat","rhino","rooster"], things:["ring","radio","rope","road"]},
-S: {names:["simran","sukhi","sandeep","sartaj"], places:["sangrur","shimla","switzerland","singapore"], animals:["snake","sheep","shark","squirrel"], things:["sun","star","spoon","shirt"]},
-T: {names:["tarandeep","teji","taran","tina"], places:["tarn taran","toronto","tokyo","tamil nadu"], animals:["tiger","turtle","tortoise"], things:["table","tree","train","truck"]},
-U: {names:["uday","umesh","urvashi"], places:["udaipur","usa","uk","uttarakhand"], animals:["urial","uakari"], things:["umbrella","uniform"]},
-V: {names:["vikram","vinod","varun","vicky"], places:["varanasi","vrindavan","vancouver"], animals:["vulture","viper"], things:["van","vase","vegetable"]},
-W: {names:["wasim","william"], places:["washington","west bengal"], animals:["wolf","whale","walrus"], things:["watch","window","water"]},
-X: {names:["xavier"], places:["xalapa"], animals:["xerus"], things:["xylophone","xray"]},
-Y: {names:["yuvraj","yash","yashika"], places:["yamunanagar","york"], animals:["yak"], things:["yacht","yarn"]},
-Z: {names:["zora","zain","zoya"], places:["zimbabwe","zanzibar"], animals:["zebra"], things:["zip","zoo","zebra"]}
-};
+let letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""); let curIndex=0; let score=0;
 
 function checkAns(){
-  let L = letters[curIndex];
+  let L = letters[curIndex].toLowerCase();
   let n = document.getElementById("name").value.trim().toLowerCase();
   let p = document.getElementById("place").value.trim().toLowerCase();
   let a = document.getElementById("animal").value.trim().toLowerCase();
@@ -88,29 +28,22 @@ function checkAns(){
   let msg = document.getElementById("msg");
 
   if(!n || !p || !a || !t){ msg.innerHTML="❌ Saare 4 bharo met!"; msg.style.color="red"; return; }
-  if(n[0]!==L.toLowerCase() || p[0]!==L.toLowerCase() || a[0]!==L.toLowerCase() || t[0]!==L.toLowerCase()){
-    msg.innerHTML=`❌ Sab words ${L} se start hone chahiye!`; msg.style.color="red"; return;
-  }
+  if(n[0]!=L || p[0]!=L || a[0]!=L || t[0]!=L){ msg.innerHTML=`❌ Sab ${L.toUpperCase()} se start hone chahiye!`; msg.style.color="red"; return; }
+  if(n.length<2 || p.length<2 || a.length<2 || t.length<2){ msg.innerHTML="❌ Kam se kam 2 letters likho!"; msg.style.color="red"; return; }
 
-  let data = DB[L];
-  // CHECK EACH CATEGORY
-  if(!data.names.includes(n)){ msg.innerHTML=`❌ "${n}" Name nahi hai! Try: ${data.names.slice(0,3).join(", ")}`; msg.style.color="red"; return; }
-  if(!data.places.includes(p)){ msg.innerHTML=`❌ "${p}" Place nahi hai! Try: ${data.places.slice(0,3).join(", ")}`; msg.style.color="red"; return; }
-  if(!data.animals.includes(a)){ msg.innerHTML=`❌ "${a}" Animal nahi hai! Try: ${data.animals.slice(0,3).join(", ")}`; msg.style.color="red"; return; }
-  if(!data.things.includes(t)){ msg.innerHTML=`❌ "${t}" Thing nahi hai! Try: ${data.things.slice(0,3).join(", ")}`; msg.style.color="red"; return; }
+  // SIRF BILKUL GALAT KO ROKEGA - JAISA TUNE BOLA THA
+  // Animal me Car/Bus/Table nahi chalega
+  let notAnimal = ["car","bus","bike","table","chair","pen","book","phone","delhi","mumbai","amritsar","andhra pradesh","aman","chetan","chetna"];
+  if(notAnimal.includes(a)){ msg.innerHTML=`❌ "${a}" Animal nahi hai met!`; msg.style.color="red"; return; }
 
-  score+=10;
-  document.getElementById("score").innerText=score;
+  score+=10; document.getElementById("score").innerText=score;
   msg.innerHTML="✅ Wah met! Perfect! +10"; msg.style.color="green";
-  setTimeout(nextLetter, 1200);
+  setTimeout(nextLetter, 1000);
 }
-
 function nextLetter(){
   curIndex++; if(curIndex>=26){ alert("Game Khatam! Score: "+score+"/260"); curIndex=0; score=0; document.getElementById("score").innerText=0; }
-  document.getElementById("letter").innerText=letters[curIndex];
-  document.getElementById("curLetter").innerText=letters[curIndex];
-  ["name","place","animal","thing"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("msg").innerText="";
+  document.getElementById("letter").innerText=letters[curIndex].toUpperCase(); document.getElementById("curLetter").innerText=letters[curIndex].toUpperCase();
+  ["name","place","animal","thing"].forEach(id=>document.getElementById(id).value=""); document.getElementById("msg").innerText="";
 }
 </script>
 </body>
