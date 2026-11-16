@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Punjabi Name Place Animal Thing Game - A to Z</title>
+<style>
+body{font-family:Arial;background:#FFF3E0;text-align:center;padding:15px}
+.box{background:white;max-width:400px;margin:auto;padding:20px;border-radius:20px;box-shadow:0 4px 10px #ccc}
+input{width:90%;padding:10px;margin:8px;border:2px solid #FF9800;border-radius:10px;font-size:16px}
+button{background:#FF9800;color:white;padding:12px 25px;border:none;border-radius:20px;font-weight:900;font-size:18px;cursor:pointer}
+h1{color:#E65100}
+.letter{font-size:80px;color:#FF9800;font-weight:900}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>🔤 Name Place Animal Thing</h1>
+<div class="letter" id="letter">A</div>
+<p>Letter <span id="letterText">A</span> se shuru hone wale shabd likho</p>
+<input id="name" placeholder="Name - Jaise Arshdeep">
+<input id="place" placeholder="Place - Jaise Amritsar">
+<input id="animal" placeholder="Animal - Jaise Anaconda">
+<input id="thing" placeholder="Thing - Jaise Apple">
+<br><br>
+<button onclick="check()">SUBMIT & NEXT LETTER</button>
+<p id="score">Score: 0 | Letter: A / Z</p>
+<p id="msg"></p>
+</div>
+<script>
+let currentCode = 65;
+let score = 0;
+function check(){
+ let n=document.getElementById('name').value.trim();
+ let p=document.getElementById('place').value.trim();
+ let a=document.getElementById('animal').value.trim();
+ let t=document.getElementById('thing').value.trim();
+ let letter = String.fromCharCode(currentCode);
+ if(!n || !p || !a || !t){
+   document.getElementById('msg').innerText="Sare 4 box bharo met!";
+   return;
+ }
+ let ok = n[0].toUpperCase()==letter && p[0].toUpperCase()==letter && a[0].toUpperCase()==letter && t[0].toUpperCase()==letter;
+ if(ok){
+   score+=10;
+   document.getElementById('msg').innerText="Wah met! Bilkul sahi ✅";
+   currentCode++;
+   if(currentCode>90){ currentCode=65; alert("Z tak complete! Fir se A se shuru! Score: "+score); }
+   document.getElementById('letter').innerText=String.fromCharCode(currentCode);
+   document.getElementById('letterText').innerText=String.fromCharCode(currentCode);
+   document.getElementById('name').value=""; document.getElementById('place').value=""; document.getElementById('animal').value=""; document.getElementById('thing').value="";
+ } else {
+   document.getElementById('msg').innerText="Letter "+letter+" se hi likhna hai met! Dubara try kar";
+ }
+ document.getElementById('score').innerText="Score: "+score+" | Letter: "+String.fromCharCode(currentCode)+" / Z";
+}
+</script>
+</body>
+</html>
